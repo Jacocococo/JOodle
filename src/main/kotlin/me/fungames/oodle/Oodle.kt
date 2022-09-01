@@ -134,7 +134,11 @@ object Oodle {
     private fun ensureLib() {
         if (::oodleLib.isInitialized)
             return
-        val oodleLibName = System.getProperty("JOodle.libName", "oo2core_7_win64.dll")
+        val oodleLibName = if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                System.getProperty("JOodle.libName", "liblinoodle.so")
+            } else {
+                System.getProperty("JOodle.libName", "oo2core_7_win64.dll")
+            }
         val oodleLibFile = File(oodleLibName)
         var canLoad = oodleLibFile.exists()
         if (!canLoad && System.getProperty("os.name").contains("Windows")) {
